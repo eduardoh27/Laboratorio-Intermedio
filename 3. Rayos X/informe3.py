@@ -13,14 +13,17 @@ def main():
     None
 
     # ACTIVIDAD 1
-    actividad1()
+    #actividad1()
 
     # ACTIVIDAD 2       
-    actividad2()
+    #actividad2()
 
     # ACTIVIDAD 3
-    actividad3()
+    #actividad3()
 
+    # ACTIVIDAD 4
+
+    actividad4()
 
 
 def actividad1():
@@ -109,7 +112,6 @@ def actividad2():
     lista_pendientes = graphMultiple(lista_angulos, lista_grosor, lista_lista_intensidades, "Intensidad vs Grosor de Zinc", "Grosor (mm)", "Intensidad (Impulsos / s)", "Actividad 2 - Intensidad vs Grosor de Zinc")
     #print(lista_pendientes)
 
-
 def actividad3():
     
     lista_angulo = getListFromCells("B7", "B57", "Actividad3")
@@ -166,6 +168,49 @@ def actividad3():
 
     graphMultiple(lista_corrientes, lista_longitudes, lista_lista_intensidades, "Intensidad vs Longitud de onda variando corriente", r"Longitud de onda ($\AA$)", "Intensidad (Impulsos / s)", "Actividad 3 - Intensidad vs Longitud de onda variando corriente", semilog=False, variable = "Corriente", unidades = "mA") 
 
+def actividad4():
+    None
+    lista_angulos = getListFromCells("B21", "B81", "Actividad4")
+
+    lista_voltajes = [i for i in reversed(range(13,37,2))]
+
+
+    # Primeros valores 
+
+    lista_columnas = ["C", "E", "G", "I", "K", "M"]
+    lista_filas = [ str(i) for i in range(21, 82) ]
+
+
+    lista_lista_intensidades = []
+
+    for j in lista_columnas:
+        lista_intensidades = []
+        for k in lista_filas:
+            lista_intensidades.append( getCellValue(j+k, "Actividad4") )
+        
+        #print(lista_intensidades)
+        lista_lista_intensidades.append( lista_intensidades )
+
+    
+
+    # Segundos valores
+
+    lista_columnas = ["O", "Q", "S", "U", "W", "Y"] 
+    lista_filas = [ str(i) for i in range(11, 72) ]
+
+
+    for j in lista_columnas:
+        lista_intensidades = []
+        for k in lista_filas:
+            lista_intensidades.append( getCellValue(j+k, "Actividad4") ) # se divide entre el valor mayor para normalizar
+        
+        print(lista_intensidades)
+        lista_lista_intensidades.append( lista_intensidades )
+
+
+    graphMultiple(lista_voltajes, lista_angulos, lista_lista_intensidades, "Intensidad vs Angulo variando voltaje", "Angulo (°)", "Intensidad (Impulsos / s)", "Actividad 4 - Intensidad vs Angulo variando voltaje", semilog=False, variable="Voltaje", unidades="kV" )          
+    #graphMultiple(lista_voltajes, lista_angulos, lista_lista_intensidades, "Intensidad vs Longitud de onda variando voltaje", r"Longitud de onda ($\AA$)", "Intensidad (Impulsos / s)", "Actividad 3 - Intensidad vs Longitud de onda variando voltajes", semilog=False, variable="Voltaje", unidades="kV" ) 
+               
 
 
 def graphMultiple( lista_angulos, lista_grosor, lista_lista_intensidades, title, xlabel, ylabel, filename, xerror=None, yerror=None, semilog = True, variable = "Angulo", unidades = "°"):
@@ -261,12 +306,6 @@ def getCellValue(celda, hoja_trabajo=None):
 def getListFromCells(celda_inicio, celda_fin, hoja_trabajo=None):
     # OJO: No funciona para celdas que sean calculadas con fórmulas
 
-    # Ruta del archivo de Excel
-    #archivo_excel = r"C:\Users\eduar\OneDrive - Universidad de los Andes\OTROS\Sofi-Edu\2023-10\Laboratorio Intermedio\Práctica 3 - Rayos X\RayosX_Grupo6.xlsx"
-
-    # Carga del libro de Excel
-    #libro_excel = openpyxl.load_workbook(archivo_excel)
-
     # Selección de la hoja de trabajo
     if hoja_trabajo is None:
         hoja_trabajo = libro_excel.active
@@ -279,9 +318,9 @@ def getListFromCells(celda_inicio, celda_fin, hoja_trabajo=None):
     # Recorrido de las celdas entre las celdas de inicio y fin
     for celda in hoja_trabajo[celda_inicio:celda_fin]:
         
-        #print(celda)
-        #print(celda[0].value)
-        #print(type(celda[0].value))
+        # print(celda)
+        # print(celda[0].value)
+        # print(type(celda[0].value))
         
         if type(celda[0].value) == str:
             #print("Celda es STRING")
