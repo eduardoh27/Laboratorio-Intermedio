@@ -83,6 +83,7 @@ def actividad2():
                       residuals=True, regresion=True, yerror=errores_periodo, direccion="L", pendiente=True)
     
     # calcular I
+    
     I = pendiente / (2 * np.pi) # (kg*m^2)
     #I = (pendiente / ((2 * np.pi)**2))**2 # (kg*m^2)
     k = I * (2 * np.pi)**2 # (N*m^2)
@@ -107,11 +108,18 @@ def actividad3():
 
     deltas = [posicion - 3 for posicion in posiciones] # (rad)
 
+
+    errores_angulo = [0.1 for i in range(len(deltas))] # (rad)
+    errores_corriente = [0.01 for i in range(len(corrientes))] # (A)
+
     pendiente = graph(deltas, corrientes, "Corriente vs. $\Delta\\theta$", "$\Delta\\theta$ (rad)", "Corriente (A)", "Actividad3", 
-                      residuals=True, regresion=True, pendiente=True, direccion="L")
+                      residuals=True, regresion=True, pendiente=True, direccion="L", yerror=errores_corriente, xerror=errores_angulo)
 
     momentos_magneticos = [pendiente * corriente for corriente in corrientes] # (A*m^2)
 
+    promedio = np.mean(momentos_magneticos)
+
+    print(f"promedio: {promedio}")
     print(f"pendiente: {pendiente}")
     print(f"momentos_magneticos: {momentos_magneticos}")
 
